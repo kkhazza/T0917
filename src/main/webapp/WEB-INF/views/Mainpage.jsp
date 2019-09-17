@@ -1,3 +1,5 @@
+<%@page import="hyun.jung.kim.Beans.FileBean"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,18 +28,38 @@
       background-color: #f2f2f2;
       padding: 25px;
     }
+    
+    .col-sm-4:hover {
+    	cursor: pointer;
+    	opacity: 0.8;
+    }
   </style>
 </head>
 <body>
 
-<div class="jumbotron">
+<div style="background-color: #abfbff;" class="jumbotron">
   <div class="container text-center">
-    <h1>File Share</h1>      
+    <h1><a href="/">File Share</a></h1>      
     <p>Please share your file :D</p>
   </div>
 </div>
 
-<nav class="navbar navbar-inverse">
+<%
+String id = (String) request.getAttribute("id");
+String account = "Your Account";
+String logout = "Logout";
+String apath = "/account";
+String lpath = "/logout";
+if(id == null) {
+	account = "Guest";
+	logout = "Login";
+	apath = "javascript:window.alert('로그인 해주세요!');";
+	lpath = "/loginpage";
+	
+}
+%>
+
+<nav style="background-color: #4285F4; border: none;" class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -45,11 +67,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="/account"><span class="glyphicon glyphicon-user"></span>Your Account</a>
+      <a class="navbar-brand" href="<%=apath %>"><span class="glyphicon glyphicon-user"></span><%=account %></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-		<li><a href="/">Logout</a></li>
+		<li><a href="<%=lpath %>"><%=logout %></a></li>
       </ul>
     </div>
   </div>
@@ -57,61 +79,30 @@
 
 <div class="container">    
   <div class="row">
-    <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
+<%
+List<FileBean> fb = (List<FileBean>) request.getAttribute("fb");
+for(int i = 0; i < fb.size(); i++){
+%>
     <div class="col-sm-4"> 
       <div class="panel panel-danger">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+        <div class="panel-heading"><%=fb.get(i).getTitle() %></div>
+        <div class="panel-body"><%=fb.get(i).getComment() %></div>
+        <div class="panel-footer">작성자 : <%=fb.get(i).getId() %></div>
       </div>
     </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-success">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
+<%
+}
+%>    
   </div>
 </div><br>
 
-<div class="container">    
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-  </div>
-</div><br><br>
+
 
 <footer class="container-fluid text-center">
   <p>我想去家</p>  
-  <form class="form-inline">제목 :
-    <input type="text" class="form-control" size="50" placeholder="제목을 검색하세요">
-    <button type="button" class="btn btn-danger">검색</button>
+  <form action="/" method="post" class="form-inline">제목 :
+    <input type="text" class="form-control" size="50" name="title" placeholder="제목을 검색하세요">
+    <button type="submit" class="btn btn-danger">검색</button>
   </form>
 </footer>
 

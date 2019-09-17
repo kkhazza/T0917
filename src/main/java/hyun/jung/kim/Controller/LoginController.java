@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,7 +25,7 @@ public class LoginController {
 	SqlSession s;
 	
 	// 로그인 화면
-	@RequestMapping (value="/")
+	@RequestMapping (value="/loginpage")
 	public String Loginpage() {
 		return "Loginpage";
 	}
@@ -37,10 +39,11 @@ public class LoginController {
 			List<MemberBean> mbDB = s.selectList("mp.login");
 			for(int i = 0; i < mbDB.size(); i++) {
 				if(mb.getId().equals(mbDB.get(i).getId()) && mb.getPw().equals(mbDB.get(i).getPw())){
+//					hs.setMaxInactiveInterval(1800);
 					hs.setAttribute("id", mbDB.get(i).getId());
-					out.print("<script>location.href='/mainpage'</script>");
+					out.print("<script>location.href='/'</script>");
 				} else {
-					out.print("<script>alert('로그인 실패');location.href='/'</script>");
+					out.print("<script>alert('로그인 실패');location.href='/loginpage'</script>");
 				}
 			}
 			out.flush();
@@ -49,6 +52,12 @@ public class LoginController {
 		}
 	}
 	
+	// 로그아웃
+	@RequestMapping (value="/logout")
+	public String Logout(HttpSession hs) {
+		hs.invalidate();
+		return "redirect:/";
+	}
 
 	// 회원가입
 	@RequestMapping (value="/register")
@@ -60,12 +69,12 @@ public class LoginController {
 			if(idcheck == 0) {
 				if(mb.getPw().equals(mb.getCpw())) {
 					s.insert("mp.register",mb);
-					out.print("<script>alert('회원가입 신청되었습니다'); location.href='/';</script>");				
+					out.print("<script>alert('회원가입 신청되었습니다'); location.href='/loginpage';</script>");				
 				} else {
-					out.print("<script>alert('비밀번호가 다르게 입력되었습니다 :('); location.href='/';</script>");
+					out.print("<script>alert('비밀번호가 다르게 입력되었습니다 :('); location.href='/loginpage';</script>");
 				}
 			} else {
-				out.print("<script>alert('ID 중복 :('); location.href='/';</script>");
+				out.print("<script>alert('ID 중복 :('); location.href='/loginpage';</script>");
 			}
 			out.flush();
 		} catch (IOException e) {
@@ -82,10 +91,26 @@ public class LoginController {
 		return "Accountpage";
 	}
 	
-	// 내 정보 수정
-	@RequestMapping (value="/accountedit")
-	public String Accountedit(MemberBean mb) {
-		s.insert("mp.accountedit", mb);
-		return "redirect:/account";
+	// 내 정보 수정 그리고 탈퇴
+	@RequestMapping (value="/account/{a}")
+	public void Accountedit(MemberBean mb, HttpServletResponse res, @PathVariable("a") String a) {
+		try {
+			res.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = res.getWriter();
+			if(a.equals("edit")) {
+				if(mb.getPw().equals(mb.getCpw())) {
+					s.insert("mp.accountedit",mb);
+					out.print("<script>alert('수정되었습니다.'); location.href='/account';</script>");				
+				} else {
+					out.print("<script>alert('비밀번호가 다르게 입력되었습니다 :('); location.href='/account';</script>");
+				}
+			} else {
+				s.insert("mp.accountdelete",mb);
+				out.print("<script>alert('탈퇴되었습니다.'); location.href='/';</script>");		
+			}		
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

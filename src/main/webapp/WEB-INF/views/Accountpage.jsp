@@ -50,9 +50,6 @@ body {
           justify-content: space-between;
   margin: 0 0 20px;
 }
-/* .form-group:last-child { */
-/*   margin: 0; */
-/* } */
 .form-group label {
   display: block;
   margin: 0 0 10px;
@@ -95,7 +92,7 @@ body {
 .form-group button {
   outline: none;
   background: #4285F4;
-  width: 100%;
+  width: 45%;
   border: 0;
   border-radius: 4px;
   padding: 12px 20px;
@@ -143,7 +140,10 @@ body {
   z-index: 40;
   color: #FFFFFF;
 }
-
+.form-group a {
+	color: #FFFFFF;
+	font-size: 20px;
+}
 </style>
 </head>
 <body>
@@ -168,11 +168,11 @@ for(int i = 0; i < mbDB.size(); i++){
     </div>
     <div class="form-content">
       <!-- register form -->
-      <form action="/accountedit" method="post">
+      <form method="post">
         <div class="form-group">
           <input type="hidden" id="no" name="no" value="<%=mbDB.get(no).getNo()%>"/>
-          <label for="id">Id</label>
-          <input type="text" id="id" name="id" required="required" value="<%=mbDB.get(no).getId()%>"/>
+          <label for="id">Id(변경불가)</label>
+          <input type="text" id="id" name="id" required="required" value="<%=mbDB.get(no).getId()%>" readonly="readonly"/>
         </div>
         <div class="form-group">
           <label for="pw">Password</label>
@@ -187,8 +187,10 @@ for(int i = 0; i < mbDB.size(); i++){
           <input type="email" id="email" name="email" required="required" value="<%=mbDB.get(no).getEmail()%>"/>
         </div>
         <div class="form-group">
-          <button type="submit">edit</button>
+          <button type="submit" formaction="/account/edit">edit</button>
+          <button type="submit" formaction="/account/delete">secession</button>
         </div>
+        <div class="form-group"><a href="/">Home</a></div>
       </form>
     </div>
   </div>

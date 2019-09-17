@@ -15,4 +15,13 @@
   <update id="accountedit" parameterType="hyun.jung.kim.Beans.MemberBean">
   	UPDATE Member SET id = #{id}, pw = #{pw}, email = #{email} WHERE no = #{no}
   </update>
+  <update id="accountdelete" parameterType="hyun.jung.kim.Beans.MemberBean">
+  	UPDATE Member SET delYn = "Y" WHERE no = #{no}
+  </update>
+  <select id="select" parameterType="hyun.jung.kim.Beans.FileBean" resultType="hyun.jung.kim.Beans.FileBean">
+  	SELECT `no`,id,title,`comment`,fn,fu FROM `File` WHERE delYn = "N"
+  	<if test="title != null">
+  			and title like '%${title}%'
+  	</if>
+  </select>
 </mapper>
