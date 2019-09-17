@@ -83,7 +83,7 @@ if(id == null) {
 List<FileBean> fb = (List<FileBean>) request.getAttribute("fb");
 for(int i = 0; i < fb.size(); i++){
 %>
-    <div class="col-sm-4"> 
+    <div class="col-sm-4" onclick="Result(<%=fb.get(i).getNo()%>)"> 
       <div class="panel panel-danger">
         <div class="panel-heading"><%=fb.get(i).getTitle() %></div>
         <div class="panel-body"><%=fb.get(i).getComment() %></div>
@@ -96,8 +96,6 @@ for(int i = 0; i < fb.size(); i++){
   </div>
 </div><br>
 
-
-
 <footer class="container-fluid text-center">
   <p>我想去家</p>  
   <form action="/" method="post" class="form-inline">제목 :
@@ -105,6 +103,10 @@ for(int i = 0; i < fb.size(); i++){
     <button type="submit" class="btn btn-danger">검색</button>
   </form>
 </footer>
-
 </body>
+<script>
+function Result(DBno) {
+	location.href="/result/"+DBno;
+}
+</script>
 </html>

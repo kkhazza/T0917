@@ -24,4 +24,7 @@
   			and title like '%${title}%'
   	</if>
   </select>
+  <select id="result" parameterType="Integer" resultType="hyun.jung.kim.Beans.FileBean">
+	SELECT `no`,id,title,`comment`,fn,fu FROM `File` WHERE no = #{no}    	
+  </select>
 </mapper>
