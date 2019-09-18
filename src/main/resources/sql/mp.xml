@@ -19,7 +19,7 @@
   <update id="accountedit" parameterType="hyun.jung.kim.Beans.MemberBean">
   	UPDATE Member SET id = #{id}, pw = #{pw}, email = #{email} WHERE no = #{no}
   </update>
-  <!-- 회원 탈퇴 -->
+  <!-- 회원 탈퇴 (관리자포함)-->
   <update id="accountdelete" parameterType="hyun.jung.kim.Beans.MemberBean">
   	UPDATE Member SET delYn = "Y" WHERE no = #{no}
   </update>
@@ -61,5 +61,13 @@
   <!-- 삭제 -->
   <update id="delete" parameterType="hyun.jung.kim.Beans.FileBean">
   	UPDATE File SET delYn = "Y" WHERE `no` = #{no}
+  </update>
+  <!-- 회원정보 가져오기 -->
+  <select id="member" resultType="hyun.jung.kim.Beans.MemberBean">
+  	SELECT no, id, pw, delYn, appYn, email FROM Member
+  </select>
+  <!-- 승인 -->
+  <update id="approval" parameterType="hyun.jung.kim.Beans.MemberBean">
+  	UPDATE Member SET appYn = "Y" WHERE no = #{no}
   </update>
 </mapper>
