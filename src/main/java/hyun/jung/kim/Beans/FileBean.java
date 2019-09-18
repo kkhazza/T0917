@@ -6,8 +6,6 @@ public class FileBean {
 	private String id;
 	private String title;
 	private String comment;
-	private String fn;
-	private String fu;
 	
 	public int getNo() {
 		return no;
@@ -32,18 +30,6 @@ public class FileBean {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-	public String getFn() {
-		return fn;
-	}
-	public void setFn(String fn) {
-		this.fn = fn;
-	}
-	public String getFu() {
-		return fu;
-	}
-	public void setFu(String fu) {
-		this.fu = fu;
 	}
 	
 }

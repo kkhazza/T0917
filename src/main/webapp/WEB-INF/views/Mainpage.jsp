@@ -50,12 +50,17 @@ String account = "Your Account";
 String logout = "Logout";
 String apath = "/account";
 String lpath = "/logout";
+String npath = "/newpage";
+String idcheck = "none";
 if(id == null) {
 	account = "Guest";
 	logout = "Login";
 	apath = "javascript:window.alert('로그인 해주세요!');";
 	lpath = "/loginpage";
-	
+	npath = "javascript:window.alert('로그인 후 이용가능합니다!');";	
+}
+if("admin".equals(id)) {
+	idcheck = "inline-block";
 }
 %>
 
@@ -71,6 +76,8 @@ if(id == null) {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
+        <li style="display: <%=idcheck%>"><a href="/member">Member</a></li>
+        <li><a href="<%=npath %>">New</a></li>
 		<li><a href="<%=lpath %>"><%=logout %></a></li>
       </ul>
     </div>

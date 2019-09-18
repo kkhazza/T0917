@@ -38,18 +38,18 @@ public class LoginController {
 			PrintWriter out = res.getWriter();
 			List<MemberBean> mbDB = s.selectList("mp.login");
 			for(int i = 0; i < mbDB.size(); i++) {
-				if(mb.getId().equals(mbDB.get(i).getId()) && mb.getPw().equals(mbDB.get(i).getPw())){
+				if(mbDB.get(i).getId().equals(mb.getId()) && mbDB.get(i).getPw().equals(mb.getPw())){
 //					hs.setMaxInactiveInterval(1800);
 					hs.setAttribute("id", mbDB.get(i).getId());
 					out.print("<script>location.href='/'</script>");
-				} else {
-					out.print("<script>alert('로그인 실패');location.href='/loginpage'</script>");
-				}
+				} 
 			}
+			out.print("<script>alert('로그인 실패');location.href='/loginpage'</script>");
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	// 로그아웃
@@ -97,14 +97,14 @@ public class LoginController {
 		try {
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
-			if(a.equals("edit")) {
+			if(a.equals("edit")) { // 수정
 				if(mb.getPw().equals(mb.getCpw())) {
 					s.insert("mp.accountedit",mb);
 					out.print("<script>alert('수정되었습니다.'); location.href='/account';</script>");				
 				} else {
 					out.print("<script>alert('비밀번호가 다르게 입력되었습니다 :('); location.href='/account';</script>");
 				}
-			} else {
+			} else { // 탈퇴
 				s.insert("mp.accountdelete",mb);
 				out.print("<script>alert('탈퇴되었습니다.'); location.href='/';</script>");		
 			}		

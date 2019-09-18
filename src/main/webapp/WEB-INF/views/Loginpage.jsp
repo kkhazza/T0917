@@ -294,7 +294,10 @@ body {
   background: #FFFFFF !important;
   color: #4285F4 !important;
 }
-
+.form-group a {
+	color: #4285F4;
+	font-size: 20px;
+}
 </style>
 </head>
 <body>
@@ -317,15 +320,11 @@ body {
         <div class="form-group">
           <label for="pw">Password</label>
           <input type="password" id="pW" name="pw" required="required"/>
-        </div>
-        <div class="form-group">
-          <label class="form-remember">
-            <input type="checkbox"/>Remember Me
-          </label><a href="#" class="form-recovery">Forgot Password?</a>
-        </div>
+        </div>        
         <div class="form-group">
           <button type="submit">Log In</button>
         </div>
+        <div class="form-group"><a href="/">Home</a></div>
       </form>
     </div>
   </div>
