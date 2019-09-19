@@ -86,7 +86,6 @@ if(fb.get(0).getId().equals(id) || ("admin").equals(id)){
 			</div>
             <div class="form-group">
             <%
-            System.out.println(ub.size());
             for(int i = 0; i < ub.size(); i++){ 
             	if(id == null){
             %>

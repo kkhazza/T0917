@@ -3,6 +3,7 @@ package hyun.jung.kim.Controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ public class MemberController {
 	SqlSession s;
 	
 	@RequestMapping(value="/member")
-	public String Member(HttpServletRequest req) {
-		req.setAttribute("mb", s.selectList("mp.member"));;
-		return "Memberpage";
+	public String Member(HttpServletRequest req,HttpSession hs) {
+		if("admin".equals(hs.getAttribute("id"))) {
+			req.setAttribute("mb", s.selectList("mp.member"));;
+			return "Memberpage";
+		}
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/admin/{a}")

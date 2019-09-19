@@ -23,6 +23,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import hyun.jung.kim.Beans.FileBean;
@@ -44,7 +46,10 @@ public class MainController {
 	
 	// 글 쓰기 화면
 	@RequestMapping (value="/newpage")
-	public String Newpage() {
+	public String Newpage(HttpSession hs) {
+		if(hs.getAttribute("id") == null) {
+			return "redirect:/";
+		}
 		return "Newpage";
 	}
 	

@@ -26,7 +26,10 @@ public class LoginController {
 	
 	// 로그인 화면
 	@RequestMapping (value="/loginpage")
-	public String Loginpage() {
+	public String Loginpage(HttpSession hs) {
+		if(hs.getAttribute("id") != null) {
+			return "redirect:/";
+		}
 		return "Loginpage";
 	}
 	
@@ -35,7 +38,7 @@ public class LoginController {
 	public void Login(MemberBean mb, HttpServletResponse res, HttpSession hs) {
 		try {
 			res.setContentType("text/html; charset=UTF-8"); 
-			PrintWriter out = res.getWriter();
+			PrintWriter out = res.getWriter();		
 			List<MemberBean> mbDB = s.selectList("mp.login");
 			for(int i = 0; i < mbDB.size(); i++) {
 				if(mbDB.get(i).getId().equals(mb.getId()) && mbDB.get(i).getPw().equals(mb.getPw())){
@@ -61,10 +64,13 @@ public class LoginController {
 
 	// 회원가입
 	@RequestMapping (value="/register")
-	public void Register(MemberBean mb, HttpServletResponse res) {
+	public void Register(MemberBean mb, HttpServletResponse res, HttpSession hs) {
 		try {
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
+			if(hs.getAttribute("id") != null) {
+				out.print("<script>alert('이미 로그인 되어있습니다.');location.href='/'</script>");
+			}
 			int idcheck = s.selectOne("mp.idcheck", mb);
 			if(idcheck == 0) {
 				if(mb.getPw().equals(mb.getCpw())) {
@@ -85,6 +91,9 @@ public class LoginController {
 	// 내 정보
 	@RequestMapping (value="/account")
 	public String Account(HttpServletRequest req, HttpSession hs) {
+		if(hs.getAttribute("id") == null) {
+			return "redirect:/";
+		}
 		List<MemberBean> mbDB = s.selectList("mp.login");
 		req.setAttribute("id", hs.getAttribute("id"));
 		req.setAttribute("mbDB", mbDB);
